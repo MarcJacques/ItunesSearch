@@ -18,10 +18,11 @@ enum HTTPMethod: String {
         var seachResults: [SearchResult] = []
         let baseURL = URL(string: "https://itunes.apple.com/search?")!
         
-        func performSearch(searchTerm: String, completion: @escaping (Error?) -> Void) {
+        func performSearch(searchTerm: String, resultType: ResultType, completion: @escaping (Error?) -> Void) {
             var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
             let searchQueryItem = URLQueryItem(name: "term", value: searchTerm)
-            urlComponents?.queryItems! += [searchQueryItem]
+            let resultTypeQueryItem = URLQueryItem(name: "entity", value: resultType.rawValue)
+            urlComponents?.queryItems! += [searchQueryItem, resultTypeQueryItem]
             
             //url needs to be like this: https://itunes.apple.com/search?term=[searchTerm]
             guard let requestURL = urlComponents?.url else {
