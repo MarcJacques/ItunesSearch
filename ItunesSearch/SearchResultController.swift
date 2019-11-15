@@ -13,9 +13,11 @@ enum HTTPMethod: String {
     case post   =   "POST"
     case put    =   "PUT"
     case delete =   "DELETE"
+}
     
     class SearchResultController {
-        var seachResults: [SearchResult] = []
+        
+        var searchResults: [SearchResult] = []
         let baseURL = URL(string: "https://itunes.apple.com/search?")!
         
         func performSearch(searchTerm: String, resultType: ResultType, completion: @escaping (Error?) -> Void) {
@@ -49,7 +51,7 @@ enum HTTPMethod: String {
                 let jsonDecoder = JSONDecoder()
                 do {
                     let search = try jsonDecoder.decode(SearchResults.self, from: data)
-                    self.seachResults.append(contentsOf: search.results)
+                    self.searchResults.append(contentsOf: search.results)
                     completion(nil)
                 } catch {
                     print("Unable to decode data into object of type [SearchResult]: \(error)")
@@ -59,4 +61,3 @@ enum HTTPMethod: String {
             
         }
     }
-}
